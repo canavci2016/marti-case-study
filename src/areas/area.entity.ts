@@ -13,15 +13,13 @@ export class Area {
   id: number;
 
   @Column()
-  lat: string;
+  name: string;
 
-  @Column()
-  lng: string;
-
-  @OneToOne(() => User)
-  @JoinColumn()
-  user: User;
-
-  @Column({ type: 'int' })
-  userId: number;
+  @Column({
+    type: 'jsonb',
+    array: false,
+    default: () => "'[]'",
+    nullable: false,
+  })
+  coordinates!: Array<{ lat: string; lng: string }>;
 }

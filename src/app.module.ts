@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DataSource } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { LocationsModule } from './locations/locations.module';
+import { AreasModule } from './areas/areas.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { LocationsModule } from './locations/locations.module';
     }),
     UsersModule,
     LocationsModule,
+    AreasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
