@@ -1,11 +1,5 @@
 import { User } from 'src/users/user.entity';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Location {
@@ -18,8 +12,7 @@ export class Location {
   @Column()
   lng: string;
 
-  @OneToOne(() => User)
-  @JoinColumn()
+  @ManyToOne(() => User, (user) => user.locations)
   user: User;
 
   @Column({ type: 'int' })
