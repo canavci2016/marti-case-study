@@ -3,13 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Location } from './location.entity';
 import { UsersService } from 'src/users/users.service';
+import { Logger } from 'src/logger/logger.service';
 
 @Injectable()
 export class LocationsService {
   constructor(
     @InjectRepository(Location)
     private usersRepository: Repository<Location>,
-  ) {}
+    @Inject(Logger)
+    private readonly logger: Logger,
+  ) {
+    this.logger.setContext('hello');
+  }
 
   @Inject(UsersService)
   private readonly usersService: UsersService;
@@ -27,6 +32,7 @@ export class LocationsService {
   }
 
   async save(location: Location): Promise<Location> {
+    this.logger.warn('Location is being saved');
     const user = await this.usersService.findOne(location.userId);
 
     if (!user) {

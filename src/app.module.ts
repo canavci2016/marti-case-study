@@ -7,6 +7,7 @@ import { DataSource } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { LocationsModule } from './locations/locations.module';
 import { AreasModule } from './areas/areas.module';
+import { LoggerModule } from './logger/logger.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AreasModule } from './areas/areas.module';
     UsersModule,
     LocationsModule,
     AreasModule,
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
