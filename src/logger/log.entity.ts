@@ -1,9 +1,7 @@
-import { User } from 'src/users/user.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -14,16 +12,10 @@ export class Log {
   id: number;
 
   @Column()
-  lat: string;
+  content: string;
 
-  @Column()
-  lng: string;
-
-  @ManyToOne(() => User, (user) => user.locations)
-  user: User;
-
-  @Column({ type: 'int' })
-  userId: number;
+  @Column('json', { nullable: true })
+  payload: object;
 
   @CreateDateColumn({
     type: 'timestamp',

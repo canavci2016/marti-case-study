@@ -1,15 +1,24 @@
 import { LoggerService, Injectable, Scope } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Log } from './log.entity';
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class Logger implements LoggerService {
+  constructor(
+    @InjectRepository(Log)
+    private repository: Repository<Log>,
+  ) {}
+
   setContext(name: string) {
     console.log('context name:' + name);
   }
   /**
    * Write a 'log' level log.
    */
-  log(message: any, ...optionalParams: any[]) {
+  async log(message: string, ...optionalParams: any[]) {
     console.log(message, optionalParams);
+    return this.repository.save({ content: message, payload: optionalParams });
   }
 
   /**

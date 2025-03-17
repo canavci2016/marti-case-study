@@ -36,7 +36,6 @@ export class LocationsService {
   }
 
   async save(location: Location): Promise<Location> {
-    this.logger.warn('Location is being saved');
     const user = await this.usersService.findOne(location.userId);
 
     if (!user) {
@@ -50,7 +49,10 @@ export class LocationsService {
     );
 
     if (area) {
-      this.logger.log(`Location is in area ${area.name}`);
+      await this.logger.log(`Location is in area ${area.name}`, {
+        userId: user.id,
+        locationId: locationRes.id,
+      });
     }
 
     return locationRes;
