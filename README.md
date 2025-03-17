@@ -57,9 +57,115 @@ $ yarn run test:e2e
 $ yarn run test:cov
 ```
 
-## Deployment
+## Overview
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+This projects aim for identifying on users location based on the predefined areas. when a user is detected to be in the provided areas. it is location is stored in the database.
+
+project only offers several services to perform this feature. every service is provided a detailed description
+
+#### 1-) User
+
+it makes it possible to create an user on the system so that its location could be tracked . we must save at least one person in the system or else the logic is most likely lead to problem
+
+```http
+   
+   ### { "name": "mert", "id": 6}
+   POST http://localhost:3000/users
+   Content-Type: application/json
+
+   { 
+     "name": "mert",
+   }
+
+  ### Expect [ { "id": 2, "name": "can" }, ... ]
+   GET http://localhost:3000/users
+
+   ```
+#### 2-) Area
+
+it enables us to define as many areas as we wish alongside their coordinates. please ensure you are transmitting location in the correct format otherwise it will cause a bug 
+
+```http
+   
+   ### { "name": "mert", "id": 6}
+   POST http://localhost:3000/areas
+   Content-Type: application/json
+
+  {
+    "name": "area",
+    "coordinates": [
+        {
+            "lat": 41.0722589,
+            "lng": 28.9085927
+        },
+        {
+            "lat": 41.0564687,
+            "lng": 28.9077344
+        },
+        {
+            "lat": 41.0668233,
+            "lng": 28.9326253
+        },
+        {
+            "lat": 41.0722589,
+            "lng": 28.9085927
+        }
+    ]
+}
+
+  ### Expect [...Array Of Areas]
+   GET http://localhost:3000/areas
+
+   ```
+#### 3-) Locations
+
+people constantly publish their location and in case its location lies inside the defined areas. location is logged.
+
+
+
+```http
+   
+   ### { "name": "mert", "id": 6}
+   POST http://localhost:3000/locations
+   Content-Type: application/json
+
+  {
+    "lat": 41.06306977527203,
+    "lng": 28.918199771163952,
+    "userId": 5
+  }
+
+  ### Expect [...Array Of Locations]
+   GET http://localhost:3000/locations
+
+   ```
+#### 4-) Logs
+
+this is the last service which is responsible for return logs of those location are detected to be inside an area.
+
+
+```http
+   
+   ### [
+    {
+        "id": "46e8e957-cc82-4d07-b71e-94a73e220265",
+        "content": "Location is in area area",
+        "payload": [
+            {
+                "userId": 5,
+                "locationId": "88e36290-43d9-4760-a86a-792d28a9d3da"
+            }
+        ],
+        "created_at": "2025-03-17T06:09:59.346Z",
+        "updated_at": "2025-03-17T06:09:59.346Z"
+    }
+]
+   GET http://localhost:3000/logs
+   Content-Type: application/json
+
+
+   ```
+
 
 If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
 

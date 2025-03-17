@@ -55,4 +55,8 @@ export class Logger implements LoggerService {
   verbose?(message: any, ...optionalParams: any[]) {
     console.log(message, optionalParams);
   }
+
+  findAll() {
+    return this.repository.find();
+  }
 }
