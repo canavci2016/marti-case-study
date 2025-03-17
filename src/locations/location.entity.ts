@@ -6,11 +6,11 @@ export class Location {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
-  @Column()
-  lat: string;
+  @Column({ type: 'numeric', precision: 10, scale: 8 })
+  lat: number;
 
-  @Column()
-  lng: string;
+  @Column({ type: 'numeric', precision: 11, scale: 8 })
+  lng: number;
 
   @ManyToOne(() => User, (user) => user.locations)
   user: User;

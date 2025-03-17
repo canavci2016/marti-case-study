@@ -14,5 +14,5 @@ export class Area {
     default: () => "'[]'",
     nullable: false,
   })
-  coordinates!: Array<{ lat: string; lng: string }>;
+  coordinates!: Array<{ lat: number; lng: number }>;
 }

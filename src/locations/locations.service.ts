@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Location } from './location.entity';
 import { UsersService } from 'src/users/users.service';
 import { Logger } from 'src/logger/logger.service';
+import { AreasService } from 'src/areas/areas.service';
 
 @Injectable()
 export class LocationsService {
@@ -18,6 +19,9 @@ export class LocationsService {
 
   @Inject(UsersService)
   private readonly usersService: UsersService;
+
+  @Inject(AreasService)
+  private readonly areasService: AreasService;
 
   getHello(): string {
     return 'Hello World!';
@@ -39,6 +43,16 @@ export class LocationsService {
       throw new NotFoundException('User not found');
     }
 
-    return this.usersRepository.save(location);
+    const locationRes = await this.usersRepository.save(location);
+    const area = await this.areasService.checkIfLocationLiesInArea(
+      locationRes.lat,
+      locationRes.lng,
+    );
+
+    if (area) {
+      this.logger.log(`Location is in area ${area.name}`);
+    }
+
+    return locationRes;
   }
 }
